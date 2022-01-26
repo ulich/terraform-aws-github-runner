@@ -135,14 +135,18 @@ async function evaluateAndRemoveRunners(
       const ghRunners = await listGitHubRunners(ec2Runner);
       const ghRunner = ghRunners.find((runner) => runner.name === ec2Runner.instanceId);
       if (ghRunner) {
-        if (runnerMinimumTimeExceeded(ec2Runner)) {
-          if (idleCounter > 0) {
-            idleCounter--;
-            logger.info(`Runner '${ec2Runner.instanceId}' will kept idle.`, LogFields.print());
-          } else {
-            logger.info(`Runner '${ec2Runner.instanceId}' will be terminated.`, LogFields.print());
-            await removeRunner(ec2Runner, ghRunner.id);
-          }
+        if (!runnerMinimumTimeExceeded(ec2Runner)) {
+          idleCounter--;
+          console.debug(`Runner '${ec2Runner.instanceId}' will be kept - too young.`);
+        } else if (ghRunner.busy) {
+          idleCounter--;
+          console.debug(`Runner '${ec2Runner.instanceId}' will be kept - busy.`);
+        } else if (idleCounter > 0) {
+          idleCounter--;
+          console.debug(`Runner '${ec2Runner.instanceId}' will be kept - scale down config.`);
+        } else {
+          console.debug(`Runner '${ec2Runner.instanceId}' will be terminated.`);
+          await removeRunner(ec2Runner, ghRunner.id);
         }
       } else {
         if (bootTimeExceeded(ec2Runner)) {

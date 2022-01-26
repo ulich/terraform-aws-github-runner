@@ -19,6 +19,7 @@ const logger = rootLogger.getChildLogger({ name: 'gh-auth' });
 export async function createOctoClient(token: string, ghesApiUrl = ''): Promise<Octokit> {
   const ocktokitOptions: OctokitOptions = {
     auth: token,
+    log: console,
   };
   if (ghesApiUrl) {
     ocktokitOptions.baseUrl = ghesApiUrl;

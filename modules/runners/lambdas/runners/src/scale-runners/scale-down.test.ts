@@ -149,26 +149,32 @@ const DEFAULT_REGISTERED_RUNNERS = [
   {
     id: 101,
     name: 'i-idle-101',
+    busy: false,
   },
   {
     id: 102,
     name: 'i-idle-102',
+    busy: false,
   },
   {
     id: 103,
     name: 'i-oldest-idle-103',
+    busy: false,
   },
   {
     id: 104,
     name: 'i-oldest-idle-104',
+    busy: false,
   },
   {
     id: 105,
     name: 'i-running-105',
+    busy: false,
   },
   {
     id: 106,
     name: 'i-running-106',
+    busy: false,
   },
 ];
 
