@@ -74,7 +74,7 @@ source "amazon-ebs" "githubrunner" {
   subnet_id         = var.subnet_id
   source_ami_filter {
     filters = {
-      name                = "amzn2-ami-hvm-2.*-x86_64-ebs"
+      name                = "amzn2-ami-kernel-5.*-hvm-*-x86_64-gp2"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
