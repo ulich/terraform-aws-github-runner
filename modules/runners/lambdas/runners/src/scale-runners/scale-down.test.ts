@@ -143,6 +143,14 @@ const DEFAULT_RUNNERS_ORIGINAL = [
     launchTime: moment(new Date()).toDate(),
     repo: `${TEST_DATA.repositoryOwner}/${TEST_DATA.repositoryName}`,
   },
+  {
+    instanceId: 'i-busy-112',
+    launchTime: moment(new Date())
+      .subtract(minimumRunningTimeInMinutes + 27, 'minutes')
+      .toDate(),
+    type: 'Org',
+    owner: TEST_DATA.repositoryOwner,
+  },
 ];
 
 const DEFAULT_REGISTERED_RUNNERS = [
@@ -175,6 +183,11 @@ const DEFAULT_REGISTERED_RUNNERS = [
     id: 106,
     name: 'i-running-106',
     busy: false,
+  },
+  {
+    id: 112,
+    name: 'i-busy-112',
+    busy: true,
   },
 ];
 
@@ -266,7 +279,8 @@ describe('scaleDown', () => {
     );
 
     RUNNERS_ALL_REMOVED = DEFAULT_RUNNERS_ORG.filter(
-      (r) => !r.instanceId.includes('running') && !r.instanceId.includes('registered'),
+      (r) =>
+        !r.instanceId.includes('running') && !r.instanceId.includes('registered') && !r.instanceId.includes('busy'),
     );
     DEFAULT_RUNNERS_ORPHANED = DEFAULT_RUNNERS_ORIGINAL.filter(
       (r) => r.instanceId.includes('orphan') && !r.instanceId.includes('not-registered'),
